@@ -59,5 +59,11 @@ var makePicture = function () {
   return picture;
 };
 
-var makeArrayOfPictures = function () {};
+var makeArrayOfPictures = function (numOfPictures) {
+  var pictures = [];
+  for (var i = 0; i < numOfPictures; i++) {
+    pictures[i] = makePicture();
+  }
+  return pictures;
+};
 
