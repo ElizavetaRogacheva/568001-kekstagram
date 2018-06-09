@@ -22,16 +22,6 @@ var getRandomIndex = function (min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 };
 
-var getComment = function (arrayComments) {
-  while (true) {
-    var commentStringIndex = getRandomIndex(0, comments.length);
-    var commentString = comments[commentStringIndex];
-    if (checkComment(commentString, commentsArray)) {
-    return commentString;
-    }
-  }
-};
-
 var checkComment = function (string, arrayComments) {
   for (var i = 0; i < arrayComments.length; i++) {
     if (arrayComments[i] === string) {
@@ -41,10 +31,20 @@ var checkComment = function (string, arrayComments) {
   return true;
 };
 
+var getComment = function (paramComments) {
+  while (true) {
+    var commentStringIndex = getRandomIndex(0, comments.length);
+    var commentString = comments[commentStringIndex];
+    if (checkComment(commentString, paramComments)) {
+    return commentString;
+    }
+  }
+};
+
 var makePicture = function () {
-   var urlIndex = getRandomIndex(1, 25);
-   var likesIndex = getRandomIndex(15, 200);
-   var commentAmountIndex = getRandomIndex(1, 2);
+   var urlIndex = getRandomIndex(1, 26);
+   var likesIndex = getRandomIndex(15, 201);
+   var commentAmountIndex = getRandomIndex(1, 3);
    var descriptionIndex = getRandomIndex(0, descriptions.length);
    var commentsArray = [];
    for (var i = 0; i < commentAmountIndex; i++) {
@@ -66,4 +66,6 @@ var makeArrayOfPictures = function (numOfPictures) {
   }
   return pictures;
 };
+
+makeArrayOfPictures(25);
 
