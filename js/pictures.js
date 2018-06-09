@@ -18,8 +18,7 @@ var descriptions = [
   'Вот это тачка!'
 ];
 
-var getRandomIndex = function getRandomInt(min, max) {
+var getRandomIndex = function (min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 };
-
 
