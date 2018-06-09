@@ -22,3 +22,42 @@ var getRandomIndex = function (min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 };
 
+var getComment = function (arrayComments) {
+  while (true) {
+    var commentStringIndex = getRandomIndex(0, comments.length);
+    var commentString = comments[commentStringIndex];
+    if (checkComment(commentString, commentsArray)) {
+    return commentString;
+    }
+  }
+};
+
+var checkComment = function (string, arrayComments) {
+  for (var i = 0; i < arrayComments.length; i++) {
+    if (arrayComments[i] === string) {
+      return false;
+    }
+  }
+  return true;
+};
+
+var makePicture = function () {
+   var urlIndex = getRandomIndex(1, 25);
+   var likesIndex = getRandomIndex(15, 200);
+   var commentAmountIndex = getRandomIndex(1, 2);
+   var descriptionIndex = getRandomIndex(0, descriptions.length);
+   var commentsArray = [];
+   for (var i = 0; i < commentAmountIndex; i++) {
+    commentsArray[i] = getComment(commentsArray);
+   }
+   var picture = {
+    url: 'photos/' + urlIndex + '.jpg',
+    likes: likesIndex,
+    comments: commentsArray,
+    descriptions: descriptions[descriptionIndex]
+  };
+  return picture;
+};
+
+var makeArrayOfPictures = function () {};
+
