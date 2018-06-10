@@ -42,6 +42,7 @@ var getComment = function (paramComments) {
       return commentString;
     }
   }
+  return null;
 };
 
 var arrayOfUrl = [];
@@ -67,6 +68,7 @@ var getUrl = function () {
       return pictureUrl;
     }
   }
+  return null
 };
 
 var makePicture = function () {
