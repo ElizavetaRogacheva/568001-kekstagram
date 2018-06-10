@@ -22,6 +22,7 @@ var getRandomIndex = function (min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 };
 
+//проверка комментария на идентичность
 var checkComment = function (string, arrayComments) {
   for (var i = 0; i < arrayComments.length; i++) {
     if (arrayComments[i] === string) {
@@ -31,6 +32,7 @@ var checkComment = function (string, arrayComments) {
   return true;
 };
 
+//создание комментария
 var getComment = function (paramComments) {
   while (true) {
     var commentStringIndex = getRandomIndex(0, comments.length);
@@ -41,8 +43,31 @@ var getComment = function (paramComments) {
   }
 };
 
+var arrayOfUrl = [];
+
+//проверка идентичности адреса картинки
+var checkUrl = function (url, array) {
+  for (var i = 0; i < array.length; i++) {
+    if (array[i] === url) {
+      return false;
+    }
+  }
+  return true;
+};
+
+//создание адреса картинки
+var getUrl = function () {
+  while (true) {
+    var urlIndex = getRandomIndex(1, 26);
+    var pictureUrl = 'photos/' + urlIndex + '.jpg';
+    if (checkUrl(pictureUrl, arrayOfUrl)) {
+      arrayOfUrl.push(pictureUrl);
+      return pictureUrl;
+    }
+  }
+};
+
 var makePicture = function () {
-   var urlIndex = getRandomIndex(1, 26);
    var likesIndex = getRandomIndex(15, 201);
    var commentAmountIndex = getRandomIndex(1, 3);
    var descriptionIndex = getRandomIndex(0, descriptions.length);
@@ -51,7 +76,7 @@ var makePicture = function () {
     commentsArray[i] = getComment(commentsArray);
    }
    var picture = {
-    url: 'photos/' + urlIndex + '.jpg',
+    url: getUrl(),
     likes: likesIndex,
     comments: commentsArray,
     descriptions: descriptions[descriptionIndex]
@@ -67,5 +92,7 @@ var makeArrayOfPictures = function (numOfPictures) {
   return pictures;
 };
 
-makeArrayOfPictures(25);
+var arrayOfPictures = makeArrayOfPictures(25);
+
+
 
