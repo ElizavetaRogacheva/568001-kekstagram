@@ -117,18 +117,28 @@ picturesBlock.appendChild(fragment);
 
 var bigPicture = document.querySelector('.big-picture');
 bigPicture.classList.remove('hidden');
+document.querySelector('.social__comment-count').classList.add('visually-hidden');
+document.querySelector('.social__loadmore').classList.add('visually-hidden');
+
+var makeString = function (array) {
+  var commentString = '';
+  for (var i = 0; i < array.length; i++) {
+    commentString += array[i] + '';
+  }
+  return commentString;
+};
 
 var renderBigPicture = function (pictureObject) {
-  bigPicture.querySelector('.big-picture__img').src = pictureObject.url;
-  bigPicture.querySelector('.likes-count').textContent = pictureObject.likes;
-  bigPicture.querySelector('.comments-count').textContent = pictureObject.comments.length;
-  bigPicture.querySelector('.social__comments').textContent = pictureObject.comments;
-  bigPicture.querySelectorAll('.social__picture').src = 'img/avatar-' + getRandomIndex(1, 7) +'.svg';
-  bigPicture.querySelector('.social__caption').textContent = pictureObject.descriptions;
+  var avatarIndex = getRandomIndex(1, 7);
+  document.querySelector('.big-picture__img img').src = pictureObject.url;
+  document.querySelector('.likes-count').textContent = pictureObject.likes;
+  document.querySelector('.comments-count').textContent = pictureObject.comments.length;
+  document.querySelector('.social__comment p').textContent = makeString(pictureObject.comments);
+  document.querySelector('.social__comment:nth-child(2) p').textContent = makeString(pictureObject.comments);
+  document.querySelector('.social__comment .social__picture').src = 'img/avatar-' + getRandomIndex(1, 7) +'.svg';
+  document.querySelector('.social__comment:nth-child(2) .social__picture').src = 'img/avatar-' + getRandomIndex(1, 7) +'.svg';
+  document.querySelector('.social__caption').textContent = pictureObject.descriptions;
 };
 
 renderBigPicture(arrayOfPictures[0]);
-
-document.querySelector('.social__comment-count').classList.add('visually-hidden');
-document.querySelector('.social__comment-loadmore').classList.add('visually-hidden');
 
