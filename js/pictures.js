@@ -7,7 +7,7 @@ var comments = [
   'Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше.',
   'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.',
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
-  ];
+];
 
 var descriptions = [
   'Тестим новую камеру!',
@@ -22,7 +22,7 @@ var getRandomIndex = function (min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 };
 
-//проверка комментария на идентичность
+// проверка комментария на идентичность
 var checkComment = function (string, arrayComments) {
   for (var i = 0; i < arrayComments.length; i++) {
     if (arrayComments[i] === string) {
@@ -32,20 +32,21 @@ var checkComment = function (string, arrayComments) {
   return true;
 };
 
-//создание комментария
+// создание комментария
 var getComment = function (paramComments) {
+  var infinityCycle = true;
   while (true) {
     var commentStringIndex = getRandomIndex(0, comments.length);
     var commentString = comments[commentStringIndex];
     if (checkComment(commentString, paramComments)) {
-    return commentString;
+      return commentString;
     }
   }
 };
 
 var arrayOfUrl = [];
 
-//проверка идентичности адреса картинки
+// проверка идентичности адреса картинки
 var checkUrl = function (url, array) {
   for (var i = 0; i < array.length; i++) {
     if (array[i] === url) {
@@ -55,8 +56,9 @@ var checkUrl = function (url, array) {
   return true;
 };
 
-//создание адреса картинки
+// создание адреса картинки
 var getUrl = function () {
+  var infinityCycle = true;
   while (true) {
     var urlIndex = getRandomIndex(1, 26);
     var pictureUrl = 'photos/' + urlIndex + '.jpg';
@@ -68,14 +70,14 @@ var getUrl = function () {
 };
 
 var makePicture = function () {
-   var likesIndex = getRandomIndex(15, 201);
-   var commentAmountIndex = getRandomIndex(1, 3);
-   var descriptionIndex = getRandomIndex(0, descriptions.length);
-   var commentsArray = [];
-   for (var i = 0; i < commentAmountIndex; i++) {
+  var likesIndex = getRandomIndex(15, 201);
+  var commentAmountIndex = getRandomIndex(1, 3);
+  var descriptionIndex = getRandomIndex(0, descriptions.length);
+  var commentsArray = [];
+  for (var i = 0; i < commentAmountIndex; i++) {
     commentsArray[i] = getComment(commentsArray);
-   }
-   var picture = {
+  }
+  var picture = {
     url: getUrl(),
     likes: likesIndex,
     comments: commentsArray,
@@ -99,7 +101,7 @@ var pictureTemplate = document.querySelector('#picture')
   .content
   .querySelector('.picture__link');
 
-//наполнение данными из массива
+// наполнение данными из массива
 var renderPicture = function (pictureObject) {
   var pictureElement = pictureTemplate.cloneNode(true);
   pictureElement.querySelector('.picture__img').src = pictureObject.url;
@@ -108,10 +110,10 @@ var renderPicture = function (pictureObject) {
   return pictureElement;
 };
 
-//создание и отрисовка элементов
+// создание и отрисовка элементов
 var fragment = document.createDocumentFragment();
-for (var i = 0; i < arrayOfPictures.length; i++) {
-  fragment.appendChild(renderPicture(arrayOfPictures[i]));
+for (var j = 0; j < arrayOfPictures.length; j++) {
+  fragment.appendChild(renderPicture(arrayOfPictures[j]));
 }
 picturesBlock.appendChild(fragment);
 
@@ -129,14 +131,13 @@ var makeString = function (array) {
 };
 
 var renderBigPicture = function (pictureObject) {
-  var avatarIndex = getRandomIndex(1, 7);
   document.querySelector('.big-picture__img img').src = pictureObject.url;
   document.querySelector('.likes-count').textContent = pictureObject.likes;
   document.querySelector('.comments-count').textContent = pictureObject.comments.length;
   document.querySelector('.social__comment p').textContent = makeString(pictureObject.comments);
   document.querySelector('.social__comment:nth-child(2) p').textContent = makeString(pictureObject.comments);
-  document.querySelector('.social__comment .social__picture').src = 'img/avatar-' + getRandomIndex(1, 7) +'.svg';
-  document.querySelector('.social__comment:nth-child(2) .social__picture').src = 'img/avatar-' + getRandomIndex(1, 7) +'.svg';
+  document.querySelector('.social__comment .social__picture').src = 'img/avatar-' + getRandomIndex(1, 7) + '.svg';
+  document.querySelector('.social__comment:nth-child(2) .social__picture').src = 'img/avatar-' + getRandomIndex(1, 7) + '.svg';
   document.querySelector('.social__caption').textContent = pictureObject.descriptions;
 };
 
