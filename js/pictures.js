@@ -35,7 +35,7 @@ var checkComment = function (string, arrayComments) {
 // создание комментария
 var getComment = function (paramComments) {
   var infinityCycle = true;
-  while (true) {
+  while (infinityCycle) {
     var commentStringIndex = getRandomIndex(0, comments.length);
     var commentString = comments[commentStringIndex];
     if (checkComment(commentString, paramComments)) {
@@ -59,7 +59,7 @@ var checkUrl = function (url, array) {
 // создание адреса картинки
 var getUrl = function () {
   var infinityCycle = true;
-  while (true) {
+  while (infinityCycle) {
     var urlIndex = getRandomIndex(1, 26);
     var pictureUrl = 'photos/' + urlIndex + '.jpg';
     if (checkUrl(pictureUrl, arrayOfUrl)) {
