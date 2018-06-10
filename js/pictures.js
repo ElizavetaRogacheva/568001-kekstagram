@@ -68,7 +68,7 @@ var getUrl = function () {
       return pictureUrl;
     }
   }
-  return null
+  return null;
 };
 
 var makePicture = function () {
