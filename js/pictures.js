@@ -1,4 +1,6 @@
 'use strict';
+var PICTURE_AMOUNT = 25;
+var COMMENTS_AMOUNT = 2;
 
 var comments = [
   'Всё отлично!',
@@ -18,12 +20,20 @@ var descriptions = [
   'Вот это тачка!'
 ];
 
+var picturesBlock = document.querySelector('.pictures');
+
+var pictureTemplate = document.querySelector('#picture')
+  .content
+  .querySelector('.picture__link');
+
+var bigPicture = document.querySelector('.big-picture');
+
+var arrayOfUrl = [];
+
 var getRandomIndex = function (min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 };
 
-
-// проверка комментария на идентичность
 var checkComment = function (string, arrayComments) {
   for (var i = 0; i < arrayComments.length; i++) {
     if (arrayComments[i] === string) {
@@ -33,8 +43,7 @@ var checkComment = function (string, arrayComments) {
   return true;
 };
 
-// создание комментария
-var getString = function (paramComments) {
+var getStringOfComment = function (paramComments) {
   var infinityCycle = true;
   while (infinityCycle) {
     var commentStringIndex = getRandomIndex(0, comments.length);
@@ -59,14 +68,11 @@ var getComment = function (paramComments) {
   var numOfStrings = getRandomIndex(1, 3);
   var comment = [];
   for (var i = 0; i < numOfStrings; i++) {
-    comment[i] = getString(paramComments);
+    comment[i] = getStringOfComment(paramComments);
   }
   return makeString(comment);
 };
 
-var arrayOfUrl = [];
-
-// проверка идентичности адреса картинки
 var checkUrl = function (url, array) {
   for (var i = 0; i < array.length; i++) {
     if (array[i] === url) {
@@ -76,7 +82,6 @@ var checkUrl = function (url, array) {
   return true;
 };
 
-// создание адреса картинки
 var getUrl = function () {
   var infinityCycle = true;
   while (infinityCycle) {
@@ -93,7 +98,7 @@ var getUrl = function () {
 var makePicture = function () {
   var usedStrings = [];
   var likesIndex = getRandomIndex(15, 201);
-  var commentAmountIndex = 2;
+  var commentAmountIndex = COMMENTS_AMOUNT;
   var descriptionIndex = getRandomIndex(0, descriptions.length);
   var commentsArray = [];
   for (var i = 0; i < commentAmountIndex; i++) {
@@ -116,14 +121,8 @@ var makeArrayOfPictures = function (numOfPictures) {
   return pictures;
 };
 
-var arrayOfPictures = makeArrayOfPictures(25);
+var arrayOfPictures = makeArrayOfPictures(PICTURE_AMOUNT);
 
-var picturesBlock = document.querySelector('.pictures');
-var pictureTemplate = document.querySelector('#picture')
-  .content
-  .querySelector('.picture__link');
-
-// наполнение данными из массива
 var renderPicture = function (pictureObject) {
   var pictureElement = pictureTemplate.cloneNode(true);
   pictureElement.querySelector('.picture__img').src = pictureObject.url;
@@ -132,20 +131,21 @@ var renderPicture = function (pictureObject) {
   return pictureElement;
 };
 
-// создание и отрисовка элементов
-var fragment = document.createDocumentFragment();
-for (var j = 0; j < arrayOfPictures.length; j++) {
-  fragment.appendChild(renderPicture(arrayOfPictures[j]));
-}
-picturesBlock.appendChild(fragment);
+var drawElements = function () {
+  var fragment = document.createDocumentFragment();
+  for (var j = 0; j < arrayOfPictures.length; j++) {
+    fragment.appendChild(renderPicture(arrayOfPictures[j]));
+  }
+  picturesBlock.appendChild(fragment);
+};
 
-var bigPicture = document.querySelector('.big-picture');
-bigPicture.classList.remove('hidden');
-document.querySelector('.social__comment-count').classList.add('visually-hidden');
-document.querySelector('.social__loadmore').classList.add('visually-hidden');
-
+var hideBlocks = function () {
+  document.querySelector('.social__comment-count').classList.add('visually-hidden');
+  document.querySelector('.social__loadmore').classList.add('visually-hidden');
+};
 
 var renderBigPicture = function (pictureObject) {
+  bigPicture.classList.remove('hidden');
   document.querySelector('.big-picture__img img').src = pictureObject.url;
   document.querySelector('.likes-count').textContent = pictureObject.likes;
   document.querySelector('.comments-count').textContent = pictureObject.comments.length;
@@ -156,5 +156,7 @@ var renderBigPicture = function (pictureObject) {
   document.querySelector('.social__caption').textContent = pictureObject.descriptions;
 };
 
+drawElements();
+hideBlocks();
 renderBigPicture(arrayOfPictures[0]);
 
