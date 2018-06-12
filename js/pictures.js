@@ -22,6 +22,7 @@ var getRandomIndex = function (min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 };
 
+
 // проверка комментария на идентичность
 var checkComment = function (string, arrayComments) {
   for (var i = 0; i < arrayComments.length; i++) {
@@ -33,16 +34,34 @@ var checkComment = function (string, arrayComments) {
 };
 
 // создание комментария
-var getComment = function (paramComments) {
+var getString = function (paramComments) {
   var infinityCycle = true;
   while (infinityCycle) {
     var commentStringIndex = getRandomIndex(0, comments.length);
     var commentString = comments[commentStringIndex];
     if (checkComment(commentString, paramComments)) {
+      paramComments.push(commentString);
       return commentString;
     }
   }
   return null;
+};
+
+var makeString = function (array) {
+  var commentString = '';
+  for (var i = 0; i < array.length; i++) {
+    commentString += array[i] + '';
+  }
+  return commentString;
+};
+
+var getComment = function (paramComments) {
+  var numOfStrings = getRandomIndex(1, 3);
+  var comment = [];
+  for (var i = 0; i < numOfStrings; i++) {
+    comment[i] = getString(paramComments);
+  }
+  return makeString(comment);
 };
 
 var arrayOfUrl = [];
@@ -72,12 +91,13 @@ var getUrl = function () {
 };
 
 var makePicture = function () {
+  var usedStrings = [];
   var likesIndex = getRandomIndex(15, 201);
-  var commentAmountIndex = getRandomIndex(1, 3);
+  var commentAmountIndex = 2;
   var descriptionIndex = getRandomIndex(0, descriptions.length);
   var commentsArray = [];
   for (var i = 0; i < commentAmountIndex; i++) {
-    commentsArray[i] = getComment(commentsArray);
+    commentsArray[i] = getComment(usedStrings);
   }
   var picture = {
     url: getUrl(),
@@ -124,20 +144,13 @@ bigPicture.classList.remove('hidden');
 document.querySelector('.social__comment-count').classList.add('visually-hidden');
 document.querySelector('.social__loadmore').classList.add('visually-hidden');
 
-var makeString = function (array) {
-  var commentString = '';
-  for (var i = 0; i < array.length; i++) {
-    commentString += array[i] + '';
-  }
-  return commentString;
-};
 
 var renderBigPicture = function (pictureObject) {
   document.querySelector('.big-picture__img img').src = pictureObject.url;
   document.querySelector('.likes-count').textContent = pictureObject.likes;
   document.querySelector('.comments-count').textContent = pictureObject.comments.length;
-  document.querySelector('.social__comment p').textContent = makeString(pictureObject.comments);
-  document.querySelector('.social__comment:nth-child(2) p').textContent = makeString(pictureObject.comments);
+  document.querySelector('.social__comment p').textContent = (pictureObject.comments[0]);
+  document.querySelector('.social__comment:nth-child(2) p').textContent = (pictureObject.comments[1]);
   document.querySelector('.social__comment .social__picture').src = 'img/avatar-' + getRandomIndex(1, 7) + '.svg';
   document.querySelector('.social__comment:nth-child(2) .social__picture').src = 'img/avatar-' + getRandomIndex(1, 7) + '.svg';
   document.querySelector('.social__caption').textContent = pictureObject.descriptions;
