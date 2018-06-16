@@ -1,6 +1,5 @@
 'use strict';
 var PICTURE_AMOUNT = 25;
-var COMMENTS_AMOUNT = 2;
 
 var comments = [
   'Всё отлично!',
@@ -34,45 +33,6 @@ var getRandomIndex = function (min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 };
 
-var checkComment = function (string, arrayComments) {
-  for (var i = 0; i < arrayComments.length; i++) {
-    if (arrayComments[i] === string) {
-      return false;
-    }
-  }
-  return true;
-};
-
-var getStringOfComment = function (paramComments) {
-  var infinityCycle = true;
-  while (infinityCycle) {
-    var commentStringIndex = getRandomIndex(0, comments.length);
-    var commentString = comments[commentStringIndex];
-    if (checkComment(commentString, paramComments)) {
-      paramComments.push(commentString);
-      return commentString;
-    }
-  }
-  return null;
-};
-
-var makeString = function (array) {
-  var commentString = '';
-  for (var i = 0; i < array.length; i++) {
-    commentString += array[i] + '';
-  }
-  return commentString;
-};
-
-var getComment = function (paramComments) {
-  var numOfStrings = getRandomIndex(1, 3);
-  var comment = [];
-  for (var i = 0; i < numOfStrings; i++) {
-    comment[i] = getStringOfComment(paramComments);
-  }
-  return makeString(comment);
-};
-
 var checkUrl = function (url, array) {
   for (var i = 0; i < array.length; i++) {
     if (array[i] === url) {
@@ -95,14 +55,26 @@ var getUrl = function () {
   return null;
 };
 
+var makeComment = function (stringsArray) {
+  var stringAmountIndex = getRandomIndex(1, 3);
+  var comment = [];
+  var copyOfComments = stringsArray.slice();
+  for (var i = 0; i < stringAmountIndex; i++) {
+    var copyOfCommentsIndex = getRandomIndex(0, copyOfComments.length);
+    comment.push(copyOfComments[copyOfCommentsIndex]);
+    copyOfComments.splice(copyOfCommentsIndex, 1);
+  }
+  return comment.join(' ');
+};
+
 var makePicture = function () {
   var usedStrings = [];
   var likesIndex = getRandomIndex(15, 201);
-  var commentAmountIndex = COMMENTS_AMOUNT;
+  var commentAmountIndex = getRandomIndex(0, 6);
   var descriptionIndex = getRandomIndex(0, descriptions.length);
   var commentsArray = [];
   for (var i = 0; i < commentAmountIndex; i++) {
-    commentsArray[i] = getComment(usedStrings);
+    commentsArray[i] = makeComment(comments);
   }
   var picture = {
     url: getUrl(),
@@ -128,6 +100,9 @@ var renderPicture = function (pictureObject) {
   pictureElement.querySelector('.picture__img').src = pictureObject.url;
   pictureElement.querySelector('.picture__stat--likes').textContent = pictureObject.likes;
   pictureElement.querySelector('.picture__stat--comments').textContent = pictureObject.comments.length;
+  pictureElement.addEventListener('click', function () {
+    renderBigPicture(pictureObject);
+  })
   return pictureElement;
 };
 
@@ -144,19 +119,82 @@ var hideBlocks = function () {
   document.querySelector('.social__loadmore').classList.add('visually-hidden');
 };
 
+var getCommentImg = function () {
+  var commentImg = document.createElement('img');
+  commentImg.classList.add('social__picture');
+  commentImg.src = 'img/avatar-' + getRandomIndex(1, 7) + '.svg';
+  commentImg.alt = 'Автатр комментатора фото';
+  commentImg.width = '35';
+  commentImg.height = '35';
+  return commentImg;
+};
+
+var getCommentText = function (text) {
+  var commentText = document.createElement('p');
+  commentText.classList.add('social__text');
+  commentText.textContent = text;
+  return commentText;
+};
+
 var renderBigPicture = function (pictureObject) {
   bigPicture.classList.remove('hidden');
+  document.querySelector('body').classList.add('modal-open');
   document.querySelector('.big-picture__img img').src = pictureObject.url;
   document.querySelector('.likes-count').textContent = pictureObject.likes;
   document.querySelector('.comments-count').textContent = pictureObject.comments.length;
-  document.querySelector('.social__comment p').textContent = (pictureObject.comments[0]);
-  document.querySelector('.social__comment:nth-child(2) p').textContent = (pictureObject.comments[1]);
-  document.querySelector('.social__comment .social__picture').src = 'img/avatar-' + getRandomIndex(1, 7) + '.svg';
-  document.querySelector('.social__comment:nth-child(2) .social__picture').src = 'img/avatar-' + getRandomIndex(1, 7) + '.svg';
+  var commentsArea = document.querySelector('.social__comments');
+  commentsArea.innerHTML = '';
+  for (var i = 0; i < pictureObject.comments.length; i++) {
+    var commentItem = document.createElement('li');
+    commentItem.classList.add('social__comment', 'social__comment--text');
+    commentItem.appendChild(getCommentImg());
+    commentItem.appendChild(getCommentText(pictureObject.comments[i]));
+    commentsArea.appendChild(commentItem);
+  }
   document.querySelector('.social__caption').textContent = pictureObject.descriptions;
+  var bigPictureClose = document.querySelector('.big-picture__cancel');
+  bigPictureClose.addEventListener('click', function () {
+    bigPicture.classList.add('hidden');
+    document.querySelector('body').classList.remove('modal-open');
+  })
 };
+
 
 drawElements();
 hideBlocks();
-renderBigPicture(arrayOfPictures[0]);
+
+var openAndCloseUploadBlock = function () {
+  var uploadFileBlock = document.querySelector('#upload-file');
+  var editingBlock = document.querySelector('.img-upload__overlay');
+  var cancelButton = document.querySelector('#upload-cancel');
+  uploadFileBlock.addEventListener('change', function () {
+    editingBlock.classList.remove('hidden');
+  });
+  cancelButton.addEventListener('click', function () {
+    editingBlock.classList.add('hidden');
+  });
+};
+
+openAndCloseUploadBlock();
+
+var minusButton = document.querySelector('.resize__control--minus');
+var plusButton = document.querySelector('.resize__control--plus');
+
+
+var effects = ['none', 'chrome', 'sepia', 'marvin', 'phobos', 'heat'];
+var currentEffect = null;
+var image = document.querySelector('.img-upload__preview img');
+var EffectHandlerConstructor = function (effectName, image) {
+  return function () {
+    image.classList.remove('effects__preview--' + currentEffect);
+    currentEffect = effectName;
+    image.classList.add('effects__preview--' + effectName);
+  }
+}
+
+for (var i = 0; i < effects.length; i++) {
+  var effectButton = document.querySelector('#effect-' + effects[i]);
+  effectButton.addEventListener('click', EffectHandlerConstructor(effects[i], image));
+}
+
 
