@@ -110,7 +110,7 @@ var renderPicture = function (pictureObject) {
   pictureElement.querySelector('.picture__stat--comments').textContent = pictureObject.comments.length;
   pictureElement.addEventListener('click', function () {
     renderBigPicture(pictureObject);
-  })
+  });
   return pictureElement;
 };
 
@@ -163,7 +163,7 @@ var closeBigPictureBlock = function (block) {
   bigPictureClose.addEventListener('click', function () {
     block.classList.add('hidden');
     document.querySelector('body').classList.remove('modal-open');
-  })
+  });
 };
 
 var renderBigPicture = function (pictureObject) {
@@ -191,33 +191,33 @@ var openAndCloseUploadBlock = function () {
 
 var changeSize = function (size) {
   imgUpload.style.transform = 'scale(' + size + ')';
-}
+};
 
 var createSizeButtonsActions = function () {
   plusButton.addEventListener('click', function () {
     currentValue = Math.min(currentValue + SIZE_STEP, 100);
     sizeIndicator.value = currentValue + '%';
-    changeSize(currentValue/100);
-  })
+    changeSize(currentValue / 100);
+  });
   minusButton.addEventListener('click', function () {
     currentValue = Math.max(currentValue - SIZE_STEP, 25);
     sizeIndicator.value = currentValue + '%';
-    changeSize(currentValue/100);
-  })
+    changeSize(currentValue / 100);
+  });
 };
 
-var EffectHandlerConstructor = function (effectName, image) {
+var effectHandlerConstructor = function (effectName, originalImage) {
   return function () {
-    image.classList.remove('effects__preview--' + currentEffect);
+    originalImage.classList.remove('effects__preview--' + currentEffect);
     currentEffect = effectName;
-    image.classList.add('effects__preview--' + effectName);
-  }
-}
+    originalImage.classList.add('effects__preview--' + effectName);
+  };
+};
 
 var applyEffect = function () {
   for (var i = 0; i < effects.length; i++) {
     var effectButton = document.querySelector('#effect-' + effects[i]);
-    effectButton.addEventListener('click', EffectHandlerConstructor(effects[i], image));
+    effectButton.addEventListener('click', EffectHandlerConstructor(effects[i], originalImage));
   }
 };
 
