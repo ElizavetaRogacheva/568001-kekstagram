@@ -76,7 +76,6 @@ var makeComment = function (stringsArray) {
 };
 
 var makePicture = function () {
-  var usedStrings = [];
   var likesIndex = getRandomIndex(15, 201);
   var commentAmountIndex = getRandomIndex(0, 6);
   var descriptionIndex = getRandomIndex(0, descriptions.length);
@@ -217,7 +216,7 @@ var effectHandlerConstructor = function (effectName, originalImage) {
 var applyEffect = function () {
   for (var i = 0; i < effects.length; i++) {
     var effectButton = document.querySelector('#effect-' + effects[i]);
-    effectButton.addEventListener('click', EffectHandlerConstructor(effects[i], originalImage));
+    effectButton.addEventListener('click', effectHandlerConstructor(effects[i], image));
   }
 };
 
