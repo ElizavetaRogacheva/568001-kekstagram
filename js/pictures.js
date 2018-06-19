@@ -220,10 +220,59 @@ var applyEffect = function () {
   }
 };
 
+var hashtagInput = document.querySelector('.text__hashtags');
+var commentInput = document.querySelector('.text__description');
+var hashtagValue = hashtagInput.value.toLowerCase();
+var hashtagArray = hashtagValue.split(' ');
+var checkHashtag = function (array) {
+  for (var i = 0; i < array.length; i++) {
+    for (var j = i + 1; j < array.length; j++) {
+      if (array[i] === array[j]) {
+        return false;
+      }
+    }
+  }
+  return true;
+};
+
+hashtagInput.addEventListener('invalid', function (evt) {
+  if (!checkHashtag(hashtagArray)) {
+    hashtagInput.setCustomValidity('Присутствуют одинаковые хэш-теги!');
+  }
+  for (var i = 0; i < hashtagArray.length; i++) {
+
+  }
+});
+
+
+
+//alert(hashtagValue);
+/*userNameInput.addEventListener('invalid', function (evt) {
+  if (userNameInput.validity.tooShort) {
+    userNameInput.setCustomValidity('Имя должно состоять минимум из 2-х символов');
+  } else if (userNameInput.validity.tooLong) {
+    userNameInput.setCustomValidity('Имя не должно превышать 25-ти символов');
+  } else if (userNameInput.validity.valueMissing) {
+    userNameInput.setCustomValidity('Обязательное поле');
+  }
+});*/
+
 drawElements();
 hideBlocks();
 openAndCloseUploadBlock();
 createSizeButtonsActions();
 applyEffect();
+
+
+
+
+
+
+
+
+
+
+
+
 
 
