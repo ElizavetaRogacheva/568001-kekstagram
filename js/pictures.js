@@ -252,12 +252,26 @@ var checkFirstSymbol = function () {
   return true;
 };
 
+var checkHashtagSpace = function () {
+  var hashtagArray = getHashtagArray();
+  for (var i = 0; i < hashtagArray.length; i++) {
+    for (var j = 1; j < hashtagArray[i].length; j++) {
+      if (hashtagArray[i][j] === '#') {
+        return false;
+      }
+    }
+  }
+  return true;
+};
+
 var checkHashtagValidity = function () {
   submitButton.addEventListener('click', function () {
     if (!checkHashtagIdentity()) {
       hashtagInput.setCustomValidity('Присутствуют одинаковые хэш-теги');
     } else if (!checkFirstSymbol()) {
       hashtagInput.setCustomValidity('Хэш-тег должен начинаться с символа "#"');
+    } else if (!checkHashtagSpace()) {
+      hashtagInput.setCustomValidity('Хэш-теги должны разделяться пробелом');
     } else {
       hashtagInput.setCustomValidity('');
     }
