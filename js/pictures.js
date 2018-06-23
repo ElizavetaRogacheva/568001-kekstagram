@@ -39,7 +39,6 @@ var sizeIndicator = document.querySelector('.resize__control--value');
 var imgUpload = document.querySelector('.img-upload__preview');
 var submitButton = document.querySelector('.img-upload__submit');
 var hashtagInput = document.querySelector('.text__hashtags');
-var commentInput = document.querySelector('.text__description');
 
 var getRandomIndex = function (min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
@@ -258,7 +257,7 @@ var checkHashtagIdentity = function () {
 var checkFirstSymbol = function () {
   var hashtagArray = getHashtagArray();
   for (var i = 0; i < hashtagArray.length; i++) {
-    if (hashtagArray[i][0] != '#') {
+    if (hashtagArray[i][0] !== '#') {
       return false;
     }
   }
@@ -319,17 +318,3 @@ hideBlocks();
 openAndCloseUploadBlock();
 createSizeButtonsActions();
 applyEffect();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
