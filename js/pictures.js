@@ -224,10 +224,14 @@ var submitButton = document.querySelector('.img-upload__submit');
 var hashtagInput = document.querySelector('.text__hashtags');
 var commentInput = document.querySelector('.text__description');
 
-var checkHashtag = function () {
+var getHashtagArray = function () {
   var hashtagValue = hashtagInput.value.toLowerCase();
   var hashtagArray = hashtagValue.split(' ');
-  console.log(hashtagArray);
+  return hashtagArray;
+};
+
+var checkHashtagIdentity = function () {
+  var hashtagArray = getHashtagArray();
   for (var i = 0; i < hashtagArray.length - 1; i++) {
     for (var j = i + 1; j < hashtagArray.length; j++) {
       if (hashtagArray[i] === hashtagArray[j]) {
@@ -238,10 +242,22 @@ var checkHashtag = function () {
   return true;
 };
 
+var checkFirstSymbol = function () {
+  var hashtagArray = getHashtagArray();
+  for (var i = 0; i < hashtagArray.length; i++) {
+    if (hashtagArray[i][0] !== '#') {
+      return false;
+    }
+  }
+  return true;
+};
+
 var checkHashtagValidity = function () {
   submitButton.addEventListener('click', function () {
-    if (!checkHashtag()) {
+    if (!checkHashtagIdentity()) {
       hashtagInput.setCustomValidity('Присутствуют одинаковые хэш-теги');
+    } else if (!checkFirstSymbol()) {
+      hashtagInput.setCustomValidity('Хэш-тег должен начинаться с символа "#"');
     } else {
       hashtagInput.setCustomValidity('');
     }
