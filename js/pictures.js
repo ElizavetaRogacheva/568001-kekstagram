@@ -264,6 +264,14 @@ var checkHashtagSpace = function () {
   return true;
 };
 
+var checkHashtagAmount = function () {
+  var hashtagArray = getHashtagArray();
+  if (hashtagArray.length >= 5) {
+    return false;
+  }
+  return true;
+};
+
 var checkHashtagValidity = function () {
   submitButton.addEventListener('click', function () {
     if (!checkHashtagIdentity()) {
@@ -272,6 +280,8 @@ var checkHashtagValidity = function () {
       hashtagInput.setCustomValidity('Хэш-тег должен начинаться с символа "#"');
     } else if (!checkHashtagSpace()) {
       hashtagInput.setCustomValidity('Хэш-теги должны разделяться пробелом');
+    } else if (!checkHashtagAmount()) {
+      hashtagInput.setCustomValidity()('Количество хэш-тегов не может быть больше 5');
     } else {
       hashtagInput.setCustomValidity('');
     }
