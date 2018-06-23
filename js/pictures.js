@@ -245,7 +245,7 @@ var checkHashtagIdentity = function () {
 var checkFirstSymbol = function () {
   var hashtagArray = getHashtagArray();
   for (var i = 0; i < hashtagArray.length; i++) {
-    if (hashtagArray[i][0] !== '#') {
+    if (hashtagArray[i][0] != '#') {
       return false;
     }
   }
@@ -266,8 +266,18 @@ var checkHashtagSpace = function () {
 
 var checkHashtagAmount = function () {
   var hashtagArray = getHashtagArray();
-  if (hashtagArray.length >= 5) {
+  if (hashtagArray.length > 5) {
     return false;
+  }
+  return true;
+};
+
+var checkHashtagLength = function () {
+  var hashtagArray = getHashtagArray();
+  for (var i = 0; i < hashtagArray.length; i++) {
+    if (hashtagArray[i].length > 20 || hashtagArray[i].length < 2) {
+      return false;
+    }
   }
   return true;
 };
@@ -281,7 +291,9 @@ var checkHashtagValidity = function () {
     } else if (!checkHashtagSpace()) {
       hashtagInput.setCustomValidity('Хэш-теги должны разделяться пробелом');
     } else if (!checkHashtagAmount()) {
-      hashtagInput.setCustomValidity()('Количество хэш-тегов не может быть больше 5');
+      hashtagInput.setCustomValidity('Количество хэш-тегов не может быть больше 5');
+    } else if (!checkHashtagLength()) {
+      hashtagInput.setCustomValidity('Длина хэш-тега не должна превышать 20 символов, хэш-тег не может содержать одиночную решетку');
     } else {
       hashtagInput.setCustomValidity('');
     }
