@@ -1,6 +1,7 @@
 'use strict';
 var PICTURE_AMOUNT = 25;
 var SIZE_STEP = 25;
+var ESC_KEYCODE = 27;
 
 var comments = [
   'Всё отлично!',
@@ -36,6 +37,9 @@ var minusButton = document.querySelector('.resize__control--minus');
 var plusButton = document.querySelector('.resize__control--plus');
 var sizeIndicator = document.querySelector('.resize__control--value');
 var imgUpload = document.querySelector('.img-upload__preview');
+var submitButton = document.querySelector('.img-upload__submit');
+var hashtagInput = document.querySelector('.text__hashtags');
+var commentInput = document.querySelector('.text__description');
 
 var getRandomIndex = function (min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
@@ -157,11 +161,18 @@ var renderCommentsArea = function (pictureObject) {
   }
 };
 
+
 var closeBigPictureBlock = function (block) {
   var bigPictureClose = document.querySelector('.big-picture__cancel');
   bigPictureClose.addEventListener('click', function () {
     block.classList.add('hidden');
     document.querySelector('body').classList.remove('modal-open');
+  });
+  document.addEventListener('keydown', function (evt) {
+    if (evt.keyCode === ESC_KEYCODE) {
+      block.classList.add('hidden');
+      document.querySelector('body').classList.remove('modal-open');
+    }
   });
 };
 
@@ -220,9 +231,6 @@ var applyEffect = function () {
   }
 };
 
-var submitButton = document.querySelector('.img-upload__submit');
-var hashtagInput = document.querySelector('.text__hashtags');
-var commentInput = document.querySelector('.text__description');
 
 var getHashtagArray = function () {
   var hashtagValue = hashtagInput.value.toLowerCase();
@@ -301,10 +309,6 @@ var checkHashtagValidity = function () {
 };
 
 checkHashtagValidity();
-
-
-
-
 drawElements();
 hideBlocks();
 openAndCloseUploadBlock();
