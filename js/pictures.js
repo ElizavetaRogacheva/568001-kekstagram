@@ -197,6 +197,11 @@ var openAndCloseUploadBlock = function () {
   cancelButton.addEventListener('click', function () {
     editingBlock.classList.add('hidden');
   });
+  document.addEventListener('keydown', function (evt) {
+    if (evt.keyCode === ESC_KEYCODE) {
+      editingBlock.classList.add('hidden');
+    }
+  });
 };
 
 var changeSize = function (size) {
