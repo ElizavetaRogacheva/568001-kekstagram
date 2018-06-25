@@ -2,6 +2,9 @@
 var PICTURE_AMOUNT = 25;
 var SIZE_STEP = 25;
 var ESC_KEYCODE = 27;
+var MAX_HASHTAGS = 5;
+var MAX_HASHTAG_SYMBOLS = 20;
+var MIN_HASHTAG_SYMBOLS = 2;
 
 var comments = [
   'Всё отлично!',
@@ -267,7 +270,7 @@ var checkFirstSymbol = function () {
 var checkHashtagSpace = function () {
   var hashtagArray = getHashtagArray();
   for (var i = 0; i < hashtagArray.length; i++) {
-    for (var j = 1; j < hashtagArray[i].length; j++) {
+    for (var j = i + 1; j < hashtagArray[i].length; j++) {
       if (hashtagArray[i][j] === '#') {
         return false;
       }
@@ -278,7 +281,7 @@ var checkHashtagSpace = function () {
 
 var checkHashtagAmount = function () {
   var hashtagArray = getHashtagArray();
-  if (hashtagArray.length > 5) {
+  if (hashtagArray.length > MAX_HASHTAGS) {
     return false;
   }
   return true;
@@ -287,7 +290,7 @@ var checkHashtagAmount = function () {
 var checkHashtagLength = function () {
   var hashtagArray = getHashtagArray();
   for (var i = 0; i < hashtagArray.length; i++) {
-    if (hashtagArray[i].length > 20 || hashtagArray[i].length < 2) {
+    if (hashtagArray[i].length > MAX_HASHTAG_SYMBOLS || hashtagArray[i].length < MIN_HASHTAG_SYMBOLS) {
       return false;
     }
   }
