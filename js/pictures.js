@@ -370,7 +370,8 @@ var getFilterSaturation = function (currentCoords) {
   } if (currentEffect === 'phobos') {
       originalImage.style.filter = 'blur(' + saturationDegree * 5 + 'px)';
   } if (currentEffect === 'heat') {
-      originalImage.style.filter = 'brightness(' + saturationDegree * 3 + ')';
+      var newSaturationDegree = 1 + 2 * saturationDegree;
+      originalImage.style.filter = 'brightness(' + newSaturationDegree + ')';
   }
 };
 
