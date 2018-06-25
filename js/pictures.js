@@ -337,7 +337,7 @@ scalePin.addEventListener('mousedown', function (evt) {
       x: moveEvt.clientX
     };
 
-    scaleValue.value = (scalePin.offsetLeft - shift.x);
+    scaleValue.value = selectAverageAmount(0, scalePin.offsetLeft - shift.x, 450);
     scalePin.style.left = scaleValue.value + 'px';
     scaleLevel.style.width = scaleValue.value + 'px';
   };
@@ -353,6 +353,17 @@ scalePin.addEventListener('mousedown', function (evt) {
   document.addEventListener('mousemove', pinMouseMooveHandler);
   document.addEventListener('mouseup', pinMouseUpHandler);
 });
+
+var selectAverageAmount = function (minParam, currentParam, maxParam) {
+  if (currentParam < minParam) {
+    return minParam;
+  } if (currentParam > maxParam) {
+    return maxParam;
+  } else {
+    return currentParam;
+  }
+};
+
 
 checkHashtagValidity();
 drawElements();
