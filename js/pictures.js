@@ -190,12 +190,17 @@ var renderBigPicture = function (pictureObject) {
   closeBigPictureBlock(bigPicture);
 };
 
+// скрытие шкалы при открытиии блока
+
+var imgUploadScale = document.querySelector('.img-upload__scale');
+
 var openAndCloseUploadBlock = function () {
   var uploadFileBlock = document.querySelector('#upload-file');
   var editingBlock = document.querySelector('.img-upload__overlay');
   var cancelButton = document.querySelector('#upload-cancel');
   uploadFileBlock.addEventListener('change', function () {
     editingBlock.classList.remove('hidden');
+    imgUploadScale.classList.add('hidden');
   });
   cancelButton.addEventListener('click', function () {
     editingBlock.classList.add('hidden');
@@ -224,8 +229,17 @@ var createSizeButtonsActions = function () {
   });
 };
 
+//тут применяется сброс шкалы
+
+var scaleValue = document.querySelector('.scale__value');
+var scalePin = document.querySelector('.scale__pin');
+var scaleLevel = document.querySelector('.scale__level');
+
 var effectHandlerConstructor = function (effectName, originalImage) {
   return function () {
+    imgUploadScale.classList.remove('hidden');
+    scalePin.style.left = '100%';
+    scaleLevel.style.width = '100%';
     originalImage.classList.remove('effects__preview--' + currentEffect);
     currentEffect = effectName;
     originalImage.classList.add('effects__preview--' + effectName);
@@ -236,6 +250,11 @@ var applyEffect = function () {
   for (var i = 0; i < effects.length; i++) {
     var effectButton = document.querySelector('#effect-' + effects[i]);
     effectButton.addEventListener('click', effectHandlerConstructor(effects[i], image));
+    if (effects[i] === 'none') {
+      effectButton.addEventListener('click', function () {
+        imgUploadScale.classList.add('hidden');
+      })
+    }
   }
 };
 
@@ -317,45 +336,46 @@ var checkHashtagValidity = function () {
 };
 
 var scaleLine = document.querySelector('.scale__line');
-var scalePin = document.querySelector('.scale__pin');
-var scaleLevel = document.querySelector('.scale__level');
-var scaleValue = document.querySelector('.scale__value');
-scalePin.addEventListener('mousedown', function (evt) {
-  evt.preventDefault();
 
-  var startCoords = {
-    x: evt.clientX
-  };
 
-  var pinMouseMooveHandler = function (moveEvt) {
-    moveEvt.preventDefault();
+var movePin = function () {
+  scalePin.addEventListener('mousedown', function (evt) {
+    evt.preventDefault();
 
-    var shift = {
-      x: startCoords.x - moveEvt.clientX
+    var startCoords = {
+      x: evt.clientX
     };
 
-    startCoords = {
-      x: moveEvt.clientX
+    var pinMouseMooveHandler = function (moveEvt) {
+      moveEvt.preventDefault();
+
+      var shift = {
+        x: startCoords.x - moveEvt.clientX
+      };
+
+      startCoords = {
+        x: moveEvt.clientX
+      };
+
+      scaleValue.value = selectAverageAmount(0, scalePin.offsetLeft - shift.x, SCALE_LINE_WIDTH);
+      scalePin.style.left = scaleValue.value + 'px';
+      scaleLevel.style.width = scaleValue.value + 'px';
+      getFilterSaturation(scalePin.offsetLeft - shift.x);
+
     };
 
-    scaleValue.value = selectAverageAmount(0, scalePin.offsetLeft - shift.x, SCALE_LINE_WIDTH);
-    scalePin.style.left = scaleValue.value + 'px';
-    scaleLevel.style.width = scaleValue.value + 'px';
-    getFilterSaturation(scalePin.offsetLeft - shift.x);
-
-  };
-
-  var pinMouseUpHandler = function (upEvt) {
-    upEvt.preventDefault();
+    var pinMouseUpHandler = function (upEvt) {
+      upEvt.preventDefault();
 
 
-    document.removeEventListener('mousemove', pinMouseMooveHandler);
-    document.removeEventListener('mouseup', pinMouseUpHandler);
-  };
+      document.removeEventListener('mousemove', pinMouseMooveHandler);
+      document.removeEventListener('mouseup', pinMouseUpHandler);
+    };
 
-  document.addEventListener('mousemove', pinMouseMooveHandler);
-  document.addEventListener('mouseup', pinMouseUpHandler);
-});
+    document.addEventListener('mousemove', pinMouseMooveHandler);
+    document.addEventListener('mouseup', pinMouseUpHandler);
+  });
+};
 
 
 var getFilterSaturation = function (currentCoords) {
@@ -392,3 +412,4 @@ hideBlocks();
 openAndCloseUploadBlock();
 createSizeButtonsActions();
 applyEffect();
+movePin();
