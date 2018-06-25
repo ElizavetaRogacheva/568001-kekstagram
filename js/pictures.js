@@ -1,6 +1,10 @@
 'use strict';
 var PICTURE_AMOUNT = 25;
 var SIZE_STEP = 25;
+var ESC_KEYCODE = 27;
+var MAX_HASHTAGS = 5;
+var MAX_HASHTAG_SYMBOLS = 20;
+var MIN_HASHTAG_SYMBOLS = 2;
 
 var comments = [
   'Всё отлично!',
@@ -36,6 +40,8 @@ var minusButton = document.querySelector('.resize__control--minus');
 var plusButton = document.querySelector('.resize__control--plus');
 var sizeIndicator = document.querySelector('.resize__control--value');
 var imgUpload = document.querySelector('.img-upload__preview');
+var submitButton = document.querySelector('.img-upload__submit');
+var hashtagInput = document.querySelector('.text__hashtags');
 
 var getRandomIndex = function (min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
@@ -157,11 +163,18 @@ var renderCommentsArea = function (pictureObject) {
   }
 };
 
+
 var closeBigPictureBlock = function (block) {
   var bigPictureClose = document.querySelector('.big-picture__cancel');
   bigPictureClose.addEventListener('click', function () {
     block.classList.add('hidden');
     document.querySelector('body').classList.remove('modal-open');
+  });
+  document.addEventListener('keydown', function (evt) {
+    if (evt.keyCode === ESC_KEYCODE) {
+      block.classList.add('hidden');
+      document.querySelector('body').classList.remove('modal-open');
+    }
   });
 };
 
@@ -185,6 +198,11 @@ var openAndCloseUploadBlock = function () {
   });
   cancelButton.addEventListener('click', function () {
     editingBlock.classList.add('hidden');
+  });
+  document.addEventListener('keydown', function (evt) {
+    if (evt.keyCode === ESC_KEYCODE) {
+      editingBlock.classList.add('hidden');
+    }
   });
 };
 
@@ -220,10 +238,86 @@ var applyEffect = function () {
   }
 };
 
+
+var getHashtagArray = function () {
+  var hashtagValue = hashtagInput.value.toLowerCase();
+  var hashtagArray = hashtagValue.split(' ');
+  return hashtagArray;
+};
+
+var checkHashtagIdentity = function () {
+  var hashtagArray = getHashtagArray();
+  for (var i = 0; i < hashtagArray.length - 1; i++) {
+    for (var j = i + 1; j < hashtagArray.length; j++) {
+      if (hashtagArray[i] === hashtagArray[j]) {
+        return false;
+      }
+    }
+  }
+  return true;
+};
+
+var checkFirstSymbol = function () {
+  var hashtagArray = getHashtagArray();
+  for (var i = 0; i < hashtagArray.length; i++) {
+    if (hashtagArray[i][0] !== '#') {
+      return false;
+    }
+  }
+  return true;
+};
+
+var checkHashtagSpace = function () {
+  var hashtagArray = getHashtagArray();
+  for (var i = 0; i < hashtagArray.length; i++) {
+    for (var j = i + 1; j < hashtagArray[i].length; j++) {
+      if (hashtagArray[i][j] === '#') {
+        return false;
+      }
+    }
+  }
+  return true;
+};
+
+var checkHashtagAmount = function () {
+  var hashtagArray = getHashtagArray();
+  if (hashtagArray.length > MAX_HASHTAGS) {
+    return false;
+  }
+  return true;
+};
+
+var checkHashtagLength = function () {
+  var hashtagArray = getHashtagArray();
+  for (var i = 0; i < hashtagArray.length; i++) {
+    if (hashtagArray[i].length > MAX_HASHTAG_SYMBOLS || hashtagArray[i].length < MIN_HASHTAG_SYMBOLS) {
+      return false;
+    }
+  }
+  return true;
+};
+
+var checkHashtagValidity = function () {
+  submitButton.addEventListener('click', function () {
+    if (!checkHashtagIdentity()) {
+      hashtagInput.setCustomValidity('Присутствуют одинаковые хэш-теги');
+    } else if (!checkFirstSymbol()) {
+      hashtagInput.setCustomValidity('Хэш-тег должен начинаться с символа "#"');
+    } else if (!checkHashtagSpace()) {
+      hashtagInput.setCustomValidity('Хэш-теги должны разделяться пробелом');
+    } else if (!checkHashtagAmount()) {
+      hashtagInput.setCustomValidity('Количество хэш-тегов не может быть больше 5');
+    } else if (!checkHashtagLength()) {
+      hashtagInput.setCustomValidity('Длина хэш-тега не должна превышать 20 символов, хэш-тег не может содержать одиночную решетку');
+    } else {
+      hashtagInput.setCustomValidity('');
+    }
+  });
+};
+
+checkHashtagValidity();
 drawElements();
 hideBlocks();
 openAndCloseUploadBlock();
 createSizeButtonsActions();
 applyEffect();
-
-
