@@ -5,6 +5,7 @@ var ESC_KEYCODE = 27;
 var MAX_HASHTAGS = 5;
 var MAX_HASHTAG_SYMBOLS = 20;
 var MIN_HASHTAG_SYMBOLS = 2;
+var SCALE_LINE_WIDTH = 450;
 
 var comments = [
   'Всё отлично!',
@@ -337,9 +338,11 @@ scalePin.addEventListener('mousedown', function (evt) {
       x: moveEvt.clientX
     };
 
-    scaleValue.value = selectAverageAmount(0, scalePin.offsetLeft - shift.x, 450);
+    scaleValue.value = selectAverageAmount(0, scalePin.offsetLeft - shift.x, SCALE_LINE_WIDTH);
     scalePin.style.left = scaleValue.value + 'px';
     scaleLevel.style.width = scaleValue.value + 'px';
+    getFilterSaturation(scalePin.offsetLeft - shift.x);
+
   };
 
   var pinMouseUpHandler = function (upEvt) {
@@ -353,6 +356,23 @@ scalePin.addEventListener('mousedown', function (evt) {
   document.addEventListener('mousemove', pinMouseMooveHandler);
   document.addEventListener('mouseup', pinMouseUpHandler);
 });
+
+
+var getFilterSaturation = function (currentCoords) {
+  var originalImage = document.querySelector('.img-upload__preview img');
+  var saturationDegree = currentCoords / 450;
+  if (currentEffect === 'chrome') {
+    originalImage.style.filter = 'grayscale(' + saturationDegree + ')';
+  } if (currentEffect === 'sepia') {
+      originalImage.style.filter = 'sepia(' + saturationDegree + ')';
+  } if (currentEffect === 'marvin') {
+      originalImage.style.filter = 'invert(' + saturationDegree * 100 + '%)';
+  } if (currentEffect === 'phobos') {
+      originalImage.style.filter = 'blur(' + saturationDegree * 5 + 'px)';
+  } if (currentEffect === 'heat') {
+      originalImage.style.filter = 'brightness(' + saturationDegree * 3 + ')';
+  }
+};
 
 var selectAverageAmount = function (minParam, currentParam, maxParam) {
   if (currentParam < minParam) {
