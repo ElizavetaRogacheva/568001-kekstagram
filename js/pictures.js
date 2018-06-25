@@ -315,6 +315,45 @@ var checkHashtagValidity = function () {
   });
 };
 
+var scaleLine = document.querySelector('.scale__line');
+var scalePin = document.querySelector('.scale__pin');
+var scaleLevel = document.querySelector('.scale__level');
+var scaleValue = document.querySelector('.scale__value');
+scalePin.addEventListener('mousedown', function (evt) {
+  evt.preventDefault();
+
+  var startCoords = {
+    x: evt.clientX
+  };
+
+  var pinMouseMooveHandler = function (moveEvt) {
+    moveEvt.preventDefault();
+
+    var shift = {
+      x: startCoords.x - moveEvt.clientX
+    };
+
+    startCoords = {
+      x: moveEvt.clientX
+    };
+
+    scaleValue.value = (scalePin.offsetLeft - shift.x);
+    scalePin.style.left = scaleValue.value + 'px';
+    scaleLevel.style.width = scaleValue.value + 'px';
+  };
+
+  var pinMouseUpHandler = function (upEvt) {
+    upEvt.preventDefault();
+
+
+    document.removeEventListener('mousemove', pinMouseMooveHandler);
+    document.removeEventListener('mouseup', pinMouseUpHandler);
+  };
+
+  document.addEventListener('mousemove', pinMouseMooveHandler);
+  document.addEventListener('mouseup', pinMouseUpHandler);
+});
+
 checkHashtagValidity();
 drawElements();
 hideBlocks();
