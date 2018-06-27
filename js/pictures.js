@@ -43,6 +43,12 @@ var sizeIndicator = document.querySelector('.resize__control--value');
 var imgUpload = document.querySelector('.img-upload__preview');
 var submitButton = document.querySelector('.img-upload__submit');
 var hashtagInput = document.querySelector('.text__hashtags');
+var scaleLine = document.querySelector('.scale__line');
+var scaleValue = document.querySelector('.scale__value');
+var scalePin = document.querySelector('.scale__pin');
+var scaleLevel = document.querySelector('.scale__level');
+var imgUploadScale = document.querySelector('.img-upload__scale');
+
 
 var getRandomIndex = function (min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
@@ -190,10 +196,6 @@ var renderBigPicture = function (pictureObject) {
   closeBigPictureBlock(bigPicture);
 };
 
-// скрытие шкалы при открытиии блока
-
-var imgUploadScale = document.querySelector('.img-upload__scale');
-
 var openAndCloseUploadBlock = function () {
   var uploadFileBlock = document.querySelector('#upload-file');
   var editingBlock = document.querySelector('.img-upload__overlay');
@@ -229,11 +231,6 @@ var createSizeButtonsActions = function () {
   });
 };
 
-//тут применяется сброс шкалы
-
-var scaleValue = document.querySelector('.scale__value');
-var scalePin = document.querySelector('.scale__pin');
-var scaleLevel = document.querySelector('.scale__level');
 
 var effectHandlerConstructor = function (effectName, originalImage) {
   return function () {
@@ -243,6 +240,7 @@ var effectHandlerConstructor = function (effectName, originalImage) {
     originalImage.classList.remove('effects__preview--' + currentEffect);
     currentEffect = effectName;
     originalImage.classList.add('effects__preview--' + effectName);
+    getFilterSaturation(SCALE_LINE_WIDTH);
   };
 };
 
@@ -334,9 +332,6 @@ var checkHashtagValidity = function () {
     }
   });
 };
-
-var scaleLine = document.querySelector('.scale__line');
-
 
 var movePin = function () {
   scalePin.addEventListener('mousedown', function (evt) {
