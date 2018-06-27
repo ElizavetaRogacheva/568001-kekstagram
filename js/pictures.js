@@ -43,7 +43,6 @@ var sizeIndicator = document.querySelector('.resize__control--value');
 var imgUpload = document.querySelector('.img-upload__preview');
 var submitButton = document.querySelector('.img-upload__submit');
 var hashtagInput = document.querySelector('.text__hashtags');
-var scaleLine = document.querySelector('.scale__line');
 var scaleValue = document.querySelector('.scale__value');
 var scalePin = document.querySelector('.scale__pin');
 var scaleLevel = document.querySelector('.scale__level');
@@ -251,7 +250,7 @@ var applyEffect = function () {
     if (effects[i] === 'none') {
       effectButton.addEventListener('click', function () {
         imgUploadScale.classList.add('hidden');
-      })
+      });
     }
   }
 };
@@ -379,14 +378,14 @@ var getFilterSaturation = function (currentCoords) {
   if (currentEffect === 'chrome') {
     originalImage.style.filter = 'grayscale(' + saturationDegree + ')';
   } if (currentEffect === 'sepia') {
-      originalImage.style.filter = 'sepia(' + saturationDegree + ')';
+    originalImage.style.filter = 'sepia(' + saturationDegree + ')';
   } if (currentEffect === 'marvin') {
-      originalImage.style.filter = 'invert(' + saturationDegree * 100 + '%)';
+    originalImage.style.filter = 'invert(' + saturationDegree * 100 + '%)';
   } if (currentEffect === 'phobos') {
-      originalImage.style.filter = 'blur(' + saturationDegree * 5 + 'px)';
+    originalImage.style.filter = 'blur(' + saturationDegree * 5 + 'px)';
   } if (currentEffect === 'heat') {
-      var newSaturationDegree = 1 + 2 * saturationDegree;
-      originalImage.style.filter = 'brightness(' + newSaturationDegree + ')';
+    var newSaturationDegree = 1 + 2 * saturationDegree;
+    originalImage.style.filter = 'brightness(' + newSaturationDegree + ')';
   }
 };
 
