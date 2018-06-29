@@ -6,6 +6,7 @@ var MAX_HASHTAGS = 5;
 var MAX_HASHTAG_SYMBOLS = 20;
 var MIN_HASHTAG_SYMBOLS = 2;
 var SCALE_LINE_WIDTH = 450;
+var MAX_BLUR = 3;
 
 var comments = [
   'Всё отлично!',
@@ -374,7 +375,7 @@ var movePin = function () {
 
 var getFilterSaturation = function (currentCoords) {
   var originalImage = document.querySelector('.img-upload__preview img');
-  var saturationDegree = currentCoords / 450;
+  var saturationDegree = currentCoords / SCALE_LINE_WIDTH;
   if (currentEffect === 'chrome') {
     originalImage.style.filter = 'grayscale(' + saturationDegree + ')';
   } if (currentEffect === 'sepia') {
@@ -382,7 +383,7 @@ var getFilterSaturation = function (currentCoords) {
   } if (currentEffect === 'marvin') {
     originalImage.style.filter = 'invert(' + saturationDegree * 100 + '%)';
   } if (currentEffect === 'phobos') {
-    originalImage.style.filter = 'blur(' + saturationDegree * 5 + 'px)';
+    originalImage.style.filter = 'blur(' + saturationDegree * MAX_BLUR + 'px)';
   } if (currentEffect === 'heat') {
     var newSaturationDegree = 1 + 2 * saturationDegree;
     originalImage.style.filter = 'brightness(' + newSaturationDegree + ')';
