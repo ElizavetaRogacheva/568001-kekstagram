@@ -1,5 +1,5 @@
 'use strict';
 (function () {
-  picture.drawElements();
-  preview.hideBlocks();
+  window.picture.drawElements();
+  window.preview.hideBlocks();
 })();

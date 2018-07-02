@@ -11,15 +11,15 @@
     pictureElement.querySelector('.picture__stat--likes').textContent = pictureObject.likes;
     pictureElement.querySelector('.picture__stat--comments').textContent = pictureObject.comments.length;
     pictureElement.addEventListener('click', function () {
-      preview.renderBigPicture(pictureObject);
+      window.preview.renderBigPicture(pictureObject);
     });
     return pictureElement;
   };
 
   var drawElements = function () {
     var fragment = document.createDocumentFragment();
-    for (var j = 0; j < data.arrayOfPictures.length; j++) {
-      fragment.appendChild(renderPicture(data.arrayOfPictures[j]));
+    for (var j = 0; j < window.data.arrayOfPictures.length; j++) {
+      fragment.appendChild(renderPicture(window.data.arrayOfPictures[j]));
     }
     picturesBlock.appendChild(fragment);
   };

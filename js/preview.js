@@ -15,7 +15,7 @@
       document.querySelector('body').classList.remove('modal-open');
     });
     document.addEventListener('keydown', function (evt) {
-      if (evt.keyCode === ESC_KEYCODE) {
+      if (evt.keyCode === window.utils.ESC_KEYCODE) {
         block.classList.add('hidden');
         document.querySelector('body').classList.remove('modal-open');
       }
@@ -29,7 +29,7 @@
     document.querySelector('.likes-count').textContent = pictureObject.likes;
     document.querySelector('.comments-count').textContent = pictureObject.comments.length;
     document.querySelector('.social__caption').textContent = pictureObject.descriptions;
-    data.renderCommentsArea(pictureObject);
+    window.data.renderCommentsArea(pictureObject);
     closeBigPictureBlock(bigPicture);
   };
 

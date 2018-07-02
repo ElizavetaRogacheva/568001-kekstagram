@@ -35,7 +35,7 @@ var openAndCloseUploadBlock = function () {
     editingBlock.classList.add('hidden');
   });
   document.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === ESC_KEYCODE) {
+    if (evt.keyCode === window.utils.ESC_KEYCODE) {
       editingBlock.classList.add('hidden');
     }
   });
