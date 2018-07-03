@@ -4,6 +4,7 @@
   var pictureTemplate = document.querySelector('#picture')
     .content
     .querySelector('.picture__link');
+  var imgFilters = document.querySelector('.img-filters');
 
   window.picture = {
     arrayOfPictures: []
@@ -15,6 +16,7 @@
       fragment.appendChild(renderPicture(object[j]));
     }
     picturesBlock.appendChild(fragment);
+    imgFilters.classList.remove('img-filters--inactive');
   };
 
   var onErrorDataFromServer = function (object) {
