@@ -10,7 +10,10 @@
     arrayOfPictures: []
   };
 
+  var photos = [];
+
   var onLoadDataFromServer = function (object) {
+    photos = object;
     var fragment = document.createDocumentFragment();
     for (var j = 0; j < object.length; j++) {
       fragment.appendChild(renderPicture(object[j]));
