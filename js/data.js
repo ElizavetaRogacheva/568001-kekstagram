@@ -116,6 +116,7 @@
   };
 
   window.data = {
+    getRandomIndex: getRandomIndex,
     arrayOfPictures: makeArrayOfPictures(PICTURE_AMOUNT),
     renderCommentsArea: renderCommentsArea
   };
