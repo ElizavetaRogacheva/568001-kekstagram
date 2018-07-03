@@ -2,6 +2,7 @@
 (function () {
   var NEW_PHOTOS_AMOUNT = 10;
   var photos = [];
+  var currentPhotos = [];
   var picturesBlock = document.querySelector('.pictures');
   var pictureTemplate = document.querySelector('#picture')
     .content
@@ -28,7 +29,6 @@
 
   var onLoadDataFromServer = function (object) {
     photos = object;
-    console.log(photos);
     drawPhotos(object);
     imgFilters.classList.remove('img-filters--inactive');
   };
@@ -46,8 +46,11 @@
   var newButtonClickHandler = function () {
     var newPhotos = [];
     for (var i = 0; i < NEW_PHOTOS_AMOUNT; i++) {
-      newPhotos.push(photos[window.data.getRandomIndex(0, photos.length - 1)]);
+      var index = window.data.getRandomIndex(0, photos.length - 1);
+      newPhotos.push(photos[index]);
+      photos.splice(index, 1);
     }
+    console.log(newPhotos);
     drawPhotos(newPhotos);
   };
 
