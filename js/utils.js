@@ -13,8 +13,9 @@
     fragment.style.height = '40';
     fragment.style.background = 'white';
   };
+
   window.utils = {
     ESC_KEYCODE: ESC_KEYCODE,
-    drawErrorElement: drawErrorElement
+    drawErrorElement: drawErrorElement,
   };
 })();
