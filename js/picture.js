@@ -55,7 +55,7 @@
 
   var popularButtonClickHandler = function () {
     changeClass(filterButtons.popular);
-    window.setTimeout(function () {
+    setTimeout(function () {
       removePhotos();
       drawPhotos(photos);
     }, DEBOUNCE_INTERVAL);
@@ -63,7 +63,7 @@
 
   var newButtonClickHandler = function () {
     changeClass(filterButtons.new);
-    window.setTimeout(function () {
+    setTimeout(function () {
       removePhotos();
       var copysOfPhotos = photos.slice(0, photos.length);
       var newPhotos = [];
@@ -78,7 +78,7 @@
 
   var discussedButtonClickHandler = function () {
     changeClass(filterButtons.discussed);
-    window.setTimeout(function () {
+    setTimeout(function () {
       removePhotos();
       var copysOfPhotos = photos.slice(0, photos.length);
       copysOfPhotos.sort(function (a, b) {
