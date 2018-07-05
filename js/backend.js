@@ -1,32 +1,36 @@
 'use strict';
 (function () {
   var getDataFromServer = function (onLoad, onError) {
-    var xhr = new XMLHttpRequest();
-    xhr.responseType = 'json';
-    xhr.open('GET', 'https://js.dump.academy/kekstagram/data');
-    xhr.addEventListener('load', function () {
-      var error;
-      switch (xhr.status) {
-        case 200:
-          onLoad(xhr.response);
-          break;
-        case 400:
-          error = 'Неверный запрос';
-          break;
-        case 404:
-          error = 'Данные не найдены';
-          break;
-        case 500:
-          error = 'Ошибка сервера';
-          break;
-        default:
-          error = 'Cтатус ответа: : ' + xhr.status + ' ' + xhr.statusText;
-      }
-      if (error) {
-        onError(error);
-      }
-    });
-    xhr.send();
+    try {
+      var xhr = new XMLHttpRequest();
+      xhr.responseType = 'json';
+      xhr.open('GET', 'https://js.dump.academy/kekstagram/data');
+      xhr.addEventListener('load', function () {
+        var error;
+        switch (xhr.status) {
+          case 200:
+            onLoad(xhr.response);
+            break;
+          case 400:
+            error = 'Неверный запрос';
+            break;
+          case 404:
+            error = 'Данные не найдены';
+            break;
+          case 500:
+            error = 'Ошибка сервера';
+            break;
+          default:
+            error = 'Cтатус ответа: : ' + xhr.status + ' ' + xhr.statusText;
+        }
+        if (error) {
+          onError(error);
+        }
+      });
+      xhr.send();
+    } catch (error) {
+      onError('Невозможно отправить запрос, отсутствует соединение');
+    }
   };
 
   var sendDataToServer = function (data, onLoad, onError) {

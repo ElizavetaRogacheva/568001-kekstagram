@@ -3,15 +3,16 @@
   var ESC_KEYCODE = 27;
 
   var drawErrorElement = function (error) {
-    var body = document.querySelector('body');
+    var imgUpload = document.querySelector('.img-upload');
     var fragment = document.createDocumentFragment();
     var errorText = document.createElement('p');
     errorText.textContent = error;
     fragment.appendChild(errorText);
-    body.appendChild(fragment);
-    fragment.style.width = '100';
-    fragment.style.height = '40';
-    fragment.style.background = 'white';
+    imgUpload.appendChild(fragment);
+    errorText.style.width = '100';
+    errorText.style.height = '40';
+    errorText.style.background = 'white';
+    errorText.zIndex = '1000';
   };
 
   window.utils = {
