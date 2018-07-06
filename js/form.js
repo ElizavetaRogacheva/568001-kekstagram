@@ -34,11 +34,16 @@ var openAndCloseUploadBlock = function () {
   });
   cancelButton.addEventListener('click', function () {
     editingBlock.classList.add('hidden');
+    form.reset();
   });
-  document.addEventListener('keydown', function (evt) {
+  uploadFileBlock.addEventListener('keydown', function (evt) {
     if (evt.keyCode === window.utils.ESC_KEYCODE) {
       editingBlock.classList.add('hidden');
+      form.reset();
+      evt.preventDefault();
+      return false;
     }
+    return true;
   });
 };
 
@@ -106,7 +111,7 @@ var checkHashtagIdentity = function () {
 var checkFirstSymbol = function () {
   var hashtagArray = getHashtagArray();
   for (var i = 0; i < hashtagArray.length; i++) {
-    if (hashtagArray[i][0] !== '#') {
+    if (hashtagArray[i][0] !== '#' && hashtagArray[i] !== '') {
       return false;
     }
   }
@@ -130,14 +135,19 @@ var checkHashtagAmount = function () {
   if (hashtagArray.length > MAX_HASHTAGS) {
     return false;
   }
+  if (hashtagArray.length === 0) {
+    return true;
+  }
   return true;
 };
 
 var checkHashtagLength = function () {
   var hashtagArray = getHashtagArray();
   for (var i = 0; i < hashtagArray.length; i++) {
-    if (hashtagArray[i].length > MAX_HASHTAG_SYMBOLS || hashtagArray[i].length < MIN_HASHTAG_SYMBOLS) {
-      return false;
+    if (hashtagArray[i].length !== 0) {
+      if (hashtagArray[i].length > MAX_HASHTAG_SYMBOLS || hashtagArray[i].length < MIN_HASHTAG_SYMBOLS) {
+        return false;
+      }
     }
   }
   return true;
@@ -241,7 +251,6 @@ var selectAverageAmount = function (minParam, currentParam, maxParam) {
     return currentParam;
   }
 };
-
 
 checkHashtagValidity();
 
