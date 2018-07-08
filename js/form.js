@@ -65,7 +65,7 @@
   };
 
 
-  var effectHandlerConstructor = function (effectName, originalImage) {
+  var makeHandler = function (effectName, originalImage) {
     return function () {
       imgUploadScale.classList.remove('hidden');
       scalePin.style.left = '100%';
@@ -80,7 +80,7 @@
   var applyEffect = function () {
     for (var i = 0; i < effects.length; i++) {
       var effectButton = document.querySelector('#effect-' + effects[i]);
-      effectButton.addEventListener('click', effectHandlerConstructor(effects[i], image));
+      effectButton.addEventListener('click', makeHandler(effects[i], image));
       if (effects[i] === 'none') {
         effectButton.addEventListener('click', function () {
           imgUploadScale.classList.add('hidden');
