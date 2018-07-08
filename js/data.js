@@ -1,6 +1,7 @@
 'use strict';
 (function () {
   var PICTURE_AMOUNT = 25;
+  var COMMENT_IMG_SIZE = 35;
   var comments = [
     'Всё отлично!',
     'В целом всё неплохо. Но не всё.',
@@ -88,9 +89,9 @@
     var commentImg = document.createElement('img');
     commentImg.classList.add('social__picture');
     commentImg.src = 'img/avatar-' + getRandomIndex(1, 7) + '.svg';
-    commentImg.alt = 'Автатр комментатора фото';
-    commentImg.width = '35';
-    commentImg.height = '35';
+    commentImg.alt = 'Аватар комментатора фото';
+    commentImg.width = COMMENT_IMG_SIZE;
+    commentImg.height = COMMENT_IMG_SIZE;
     return commentImg;
   };
 
