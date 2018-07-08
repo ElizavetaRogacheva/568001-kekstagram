@@ -6,6 +6,7 @@
   var MIN_HASHTAG_SYMBOLS = 2;
   var SCALE_LINE_WIDTH = 450;
   var MAX_BLUR = 3;
+  var SCALE_SIZE = '100%';
 
   var currentValue = 100;
   var effects = ['none', 'chrome', 'sepia', 'marvin', 'phobos', 'heat'];
@@ -68,8 +69,8 @@
   var makeHandler = function (effectName, originalImage) {
     return function () {
       imgUploadScale.classList.remove('hidden');
-      scalePin.style.left = '100%';
-      scaleLevel.style.width = '100%';
+      scalePin.style.left = SCALE_SIZE;
+      scaleLevel.style.width = SCALE_SIZE;
       originalImage.classList.remove('effects__preview--' + currentEffect);
       currentEffect = effectName;
       originalImage.classList.add('effects__preview--' + effectName);
@@ -223,7 +224,6 @@
       document.addEventListener('mouseup', pinMouseUpHandler);
     });
   };
-
 
   var changeFilterSaturation = function (currentCoords) {
     var originalImage = document.querySelector('.img-upload__preview img');
