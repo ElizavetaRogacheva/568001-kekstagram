@@ -73,7 +73,7 @@
       originalImage.classList.remove('effects__preview--' + currentEffect);
       currentEffect = effectName;
       originalImage.classList.add('effects__preview--' + effectName);
-      getFilterSaturation(SCALE_LINE_WIDTH);
+      changeFilterSaturation(SCALE_LINE_WIDTH);
     };
   };
 
@@ -207,7 +207,7 @@
         scaleValue.value = selectAverageAmount(0, scalePin.offsetLeft - shift.x, SCALE_LINE_WIDTH);
         scalePin.style.left = scaleValue.value + 'px';
         scaleLevel.style.width = scaleValue.value + 'px';
-        getFilterSaturation(scalePin.offsetLeft - shift.x);
+        changeFilterSaturation(scalePin.offsetLeft - shift.x);
 
       };
 
@@ -225,7 +225,7 @@
   };
 
 
-  var getFilterSaturation = function (currentCoords) {
+  var changeFilterSaturation = function (currentCoords) {
     var originalImage = document.querySelector('.img-upload__preview img');
     var saturationDegree = currentCoords / SCALE_LINE_WIDTH;
     if (currentEffect === 'chrome') {
