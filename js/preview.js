@@ -37,4 +37,6 @@
     hideBlocks: hideBlocks,
     renderBigPicture: renderBigPicture
   };
+
+  hideBlocks();
 })();
