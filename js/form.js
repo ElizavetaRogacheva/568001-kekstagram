@@ -74,6 +74,9 @@
       originalImage.classList.remove('effects__preview--' + currentEffect);
       currentEffect = effectName;
       originalImage.classList.add('effects__preview--' + effectName);
+      if (effectName === 'none') {
+        imgUploadScale.classList.add('hidden');
+      }
       changeFilterSaturation(SCALE_LINE_WIDTH);
     };
   };
@@ -82,11 +85,6 @@
     for (var i = 0; i < effects.length; i++) {
       var effectButton = document.querySelector('#effect-' + effects[i]);
       effectButton.addEventListener('click', makeHandler(effects[i], image));
-      if (effects[i] === 'none') {
-        effectButton.addEventListener('click', function () {
-          imgUploadScale.classList.add('hidden');
-        });
-      }
     }
   };
 

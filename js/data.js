@@ -26,26 +26,11 @@
     return Math.floor(Math.random() * (max - min)) + min;
   };
 
-  var checkUrl = function (url, array) {
-    for (var i = 0; i < array.length; i++) {
-      if (array[i] === url) {
-        return false;
-      }
-    }
-    return true;
-  };
-
   var getUrl = function () {
-    var infinityCycle = true;
-    while (infinityCycle) {
-      var urlIndex = getRandomIndex(1, 26);
-      var pictureUrl = 'photos/' + urlIndex + '.jpg';
-      if (checkUrl(pictureUrl, arrayOfUrl)) {
-        arrayOfUrl.push(pictureUrl);
-        return pictureUrl;
-      }
-    }
-    return null;
+    var urlIndex = getRandomIndex(0, arrayOfUrl.length);
+    var pictureUrl = arrayOfUrl[urlIndex];
+    arrayOfUrl.splice(urlIndex, 1);
+    return pictureUrl;
   };
 
   var makeComment = function (stringsArray) {
@@ -79,6 +64,10 @@
 
   var makeArrayOfPictures = function (numOfPictures) {
     var pictures = [];
+    arrayOfUrl = [];
+    for (var urlIndex = 1; urlIndex < PICTURE_AMOUNT + 1; urlIndex++) {
+      arrayOfUrl.push('photos/' + urlIndex + '.jpg');
+    }
     for (var i = 0; i < numOfPictures; i++) {
       pictures[i] = makePicture();
     }
