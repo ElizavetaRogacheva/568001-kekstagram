@@ -12,7 +12,7 @@
   var imgFilters = document.querySelector('.img-filters');
   var fragment = document.createDocumentFragment();
 
-  var filterButtons = {
+  var FilterButtons = {
     popular: document.querySelector('#filter-popular'),
     new: document.querySelector('#filter-new'),
     discussed: document.querySelector('#filter-discussed')
@@ -39,7 +39,7 @@
     photos = object.slice(0, object.length);
     drawPhotos(object);
     imgFilters.classList.remove('img-filters--inactive');
-    currentButton = filterButtons.popular;
+    currentButton = FilterButtons.popular;
   };
 
   var onErrorDataFromServer = function (object) {
@@ -54,7 +54,7 @@
   };
 
   var popularButtonClickHandler = function () {
-    changeClass(filterButtons.popular);
+    changeClass(FilterButtons.popular);
     setTimeout(function () {
       removePhotos();
       drawPhotos(photos);
@@ -62,7 +62,7 @@
   };
 
   var newButtonClickHandler = function () {
-    changeClass(filterButtons.new);
+    changeClass(FilterButtons.new);
     setTimeout(function () {
       removePhotos();
       var copysOfPhotos = photos.slice(0, photos.length);
@@ -77,7 +77,7 @@
   };
 
   var discussedButtonClickHandler = function () {
-    changeClass(filterButtons.discussed);
+    changeClass(FilterButtons.discussed);
     setTimeout(function () {
       removePhotos();
       var copysOfPhotos = photos.slice(0, photos.length);
@@ -88,15 +88,15 @@
     }, DEBOUNCE_INTERVAL);
   };
 
-  filterButtons.popular.addEventListener('click', function () {
+  FilterButtons.popular.addEventListener('click', function () {
     popularButtonClickHandler();
   });
 
-  filterButtons.new.addEventListener('click', function () {
+  FilterButtons.new.addEventListener('click', function () {
     newButtonClickHandler();
   });
 
-  filterButtons.discussed.addEventListener('click', function () {
+  FilterButtons.discussed.addEventListener('click', function () {
     discussedButtonClickHandler();
   });
 
