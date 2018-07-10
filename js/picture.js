@@ -35,14 +35,14 @@
     });
   };
 
-  var onLoadDataFromServer = function (object) {
+  var onLoadServerDataHandler = function (object) {
     photos = object.slice(0, object.length);
     drawPhotos(object);
     imgFilters.classList.remove('img-filters--inactive');
     currentButton = FilterButtons.popular;
   };
 
-  var onErrorDataFromServer = function (object) {
+  var onErrorServerDataHandler = function (object) {
     window.picture.arrayOfPictures = [];
     window.utils.drawErrorElement(object);
   };
@@ -111,5 +111,5 @@
     return pictureElement;
   };
 
-  window.backend.getDataFromServer(onLoadDataFromServer, onErrorDataFromServer);
+  window.backend.getDataFromServer(onLoadServerDataHandler, onErrorServerDataHandler);
 })();

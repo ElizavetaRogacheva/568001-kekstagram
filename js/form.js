@@ -121,12 +121,12 @@
 
   var validateHashTag = function (evt) {
     var hashtags = evt.target.value.toLowerCase().split(' ');
-    var validity = evt.target.validity || (hashtags.length > MAX_HASHTAGS ? 'Количество хэш-тегов не может быть больше 5' : '');
-    for (var i = 0; i < hashtags; i++) {
+    var validity = (hashtags.length > MAX_HASHTAGS ? 'Количество хэш-тегов не может быть больше 5' : '');
+    for (var i = 0; i < hashtags.length; i++) {
       var hashtag = hashtags[i];
       validity = validity || checkHashtagLength(hashtag) || checkHashtagSpace(hashtag) || checkFirstSymbol(hashtag);
       for (var j = i + 1; j < hashtag.length; j++) {
-        var anotherHashTag = hashtag[j];
+        var anotherHashTag = hashtags[j];
         validity = validity || (anotherHashTag === hashtag ? 'Присутствуют одинаковые хэш-теги' : '');
       }
       if (validity !== '') {
