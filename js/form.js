@@ -24,10 +24,20 @@
   var scaleLevel = document.querySelector('.scale__level');
   var imgUploadScale = document.querySelector('.img-upload__scale');
   var form = document.querySelector('.img-upload__form');
+  var editingBlock = document.querySelector('.img-upload__overlay');
+
+  var escCloseHandler = function (evt) {
+    if (evt.keyCode === window.utils.ESC_KEYCODE) {
+      editingBlock.classList.add('hidden');
+      form.reset();
+      evt.preventDefault();
+      return false;
+    }
+    return true;
+  };
 
   var openAndCloseUploadBlock = function () {
     var uploadFileBlock = document.querySelector('#upload-file');
-    var editingBlock = document.querySelector('.img-upload__overlay');
     var cancelButton = document.querySelector('#upload-cancel');
     uploadFileBlock.addEventListener('change', function () {
       editingBlock.classList.remove('hidden');
@@ -36,16 +46,12 @@
     cancelButton.addEventListener('click', function () {
       editingBlock.classList.add('hidden');
       form.reset();
+      image.classList.remove('effects__preview--' + currentEffect);
+      image.style = '';
+      editingBlock.removeEventListener('keydown', escCloseHandler);
     });
-    uploadFileBlock.addEventListener('keydown', function (evt) {
-      if (evt.keyCode === window.utils.ESC_KEYCODE) {
-        editingBlock.classList.add('hidden');
-        form.reset();
-        evt.preventDefault();
-        return false;
-      }
-      return true;
-    });
+    uploadFileBlock.addEventListener('keydown', escCloseHandler);
+
   };
 
   var changeSize = function (size) {
@@ -74,10 +80,11 @@
       originalImage.classList.remove('effects__preview--' + currentEffect);
       currentEffect = effectName;
       originalImage.classList.add('effects__preview--' + effectName);
+      changeFilterSaturation(SCALE_LINE_WIDTH);
       if (effectName === 'none') {
         imgUploadScale.classList.add('hidden');
+        image.style = '';
       }
-      changeFilterSaturation(SCALE_LINE_WIDTH);
     };
   };
 
@@ -171,7 +178,6 @@
   };
 
   var onLoadDataToServer = function () {
-    var editingBlock = document.querySelector('.img-upload__overlay');
     editingBlock.classList.add('hidden');
   };
 

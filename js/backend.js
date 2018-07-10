@@ -1,5 +1,8 @@
 'use strict';
 (function () {
+  var pictureTemplate = document.querySelector('#picture')
+  .content
+  .querySelector('.img-upload__message--error');
   var getDataFromServer = function (onLoad, onError) {
     try {
       var xhr = new XMLHttpRequest();
@@ -33,6 +36,17 @@
     }
   };
 
+  var imgUploadWrapper = document.querySelector('.img-upload__preview');
+
+  var drawErrorMessage = function () {
+    var errorMessage = pictureTemplate.cloneNode(true);
+    errorMessage.classList.remove('hidden');
+    var fragment = document.createDocumentFragment();
+    fragment.appendChild(errorMessage);
+    imgUploadWrapper.appendChild(fragment);
+  };
+
+
   var sendDataToServer = function (data, onLoad, onError) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
@@ -41,6 +55,7 @@
         onLoad(xhr.response);
       } else {
         onError('Cтатус ответа: ' + xhr.status + ' ' + xhr.statusText);
+        drawErrorMessage();
       }
     });
     xhr.open('POST', 'https://js.dump.academy/kekstagram');
