@@ -3,6 +3,9 @@
   var pictureTemplate = document.querySelector('#picture')
   .content
   .querySelector('.img-upload__message--error');
+
+  var imgUploadPreview = document.querySelector('.img-upload__preview');
+
   var getDataFromServer = function (onLoad, onError) {
     try {
       var xhr = new XMLHttpRequest();
@@ -36,16 +39,13 @@
     }
   };
 
-  var imgUploadWrapper = document.querySelector('.img-upload__preview');
-
   var drawErrorMessage = function () {
     var errorMessage = pictureTemplate.cloneNode(true);
     errorMessage.classList.remove('hidden');
     var fragment = document.createDocumentFragment();
     fragment.appendChild(errorMessage);
-    imgUploadWrapper.appendChild(fragment);
+    imgUploadPreview.appendChild(fragment);
   };
-
 
   var sendDataToServer = function (data, onLoad, onError) {
     var xhr = new XMLHttpRequest();

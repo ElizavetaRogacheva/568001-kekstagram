@@ -61,17 +61,17 @@
     }, DEBOUNCE_INTERVAL);
   };
 
+  var mixArray = function () {
+    return Math.random() - 0.5;
+  };
+
   var newButtonClickHandler = function () {
     changeClass(FilterButtons.new);
     setTimeout(function () {
       removePhotos();
       var copysOfPhotos = photos.slice(0, photos.length);
-      var newPhotos = [];
-      for (var i = 0; i < NEW_PHOTOS_AMOUNT; i++) {
-        var index = window.data.getRandomIndex(0, copysOfPhotos.length - 1);
-        newPhotos.push(copysOfPhotos[index]);
-        copysOfPhotos.splice(index, 1);
-      }
+      copysOfPhotos.sort(mixArray);
+      var newPhotos = copysOfPhotos.splice(0, NEW_PHOTOS_AMOUNT);
       drawPhotos(newPhotos);
     }, DEBOUNCE_INTERVAL);
   };
