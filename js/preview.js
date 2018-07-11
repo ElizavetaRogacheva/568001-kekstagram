@@ -32,7 +32,6 @@
     document.querySelector('.big-picture__img img').src = pictureObject.url;
     document.querySelector('.likes-count').textContent = pictureObject.likes;
     document.querySelector('.comments-count').textContent = pictureObject.comments.length;
-    document.querySelector('.social__caption').textContent = pictureObject.descriptions;
     window.data.renderCommentsArea(pictureObject);
     closeBigPictureBlock();
   };
