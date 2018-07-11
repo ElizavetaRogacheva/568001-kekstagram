@@ -11,7 +11,7 @@
 
   var escCloseHandler = function (evt) {
     if (evt.keyCode === window.utils.ESC_KEYCODE) {
-      bigPictureClose.classList.add('hidden');
+      bigPicture.classList.add('hidden');
       document.querySelector('body').classList.remove('modal-open');
       document.removeEventListener('keydown', escCloseHandler);
     }
@@ -19,7 +19,7 @@
 
   var closeBigPictureBlock = function () {
     bigPictureClose.addEventListener('click', function () {
-      bigPictureClose.classList.add('hidden');
+      bigPicture.classList.add('hidden');
       document.querySelector('body').classList.remove('modal-open');
       document.removeEventListener('keydown', escCloseHandler);
     });
@@ -34,7 +34,7 @@
     document.querySelector('.comments-count').textContent = pictureObject.comments.length;
     document.querySelector('.social__caption').textContent = pictureObject.descriptions;
     window.data.renderCommentsArea(pictureObject);
-    closeBigPictureBlock(bigPicture);
+    closeBigPictureBlock();
   };
 
   window.preview = {
