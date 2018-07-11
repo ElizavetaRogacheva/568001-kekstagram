@@ -102,10 +102,9 @@
   };
 
   var checkHashtagSpace = function (word) {
-    for (var j = 1; j < word.length; j++) {
-      if (word[j] === '#') {
-        return 'Хэш-теги должны разделяться пробелом';
-      }
+    var symbolIndex = word.indexOf('#', 1);
+    if (symbolIndex !== -1) {
+      return 'Хэш-теги должны разделяться пробелом';
     }
     return '';
   };
