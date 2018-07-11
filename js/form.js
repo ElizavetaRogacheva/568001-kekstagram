@@ -25,10 +25,18 @@
   var form = document.querySelector('.img-upload__form');
   var editingBlock = document.querySelector('.img-upload__overlay');
 
+  var resetForm = function () {
+    form.reset();
+    image.classList.remove('effects__preview--' + currentEffect);
+    image.classList.add('effects__preview--none');
+    image.style = '';
+    imgUpload.style.transform = 'scale(1)';
+  };
+
   var escCloseHandler = function (evt) {
     if (evt.keyCode === window.utils.ESC_KEYCODE) {
       editingBlock.classList.add('hidden');
-      form.reset();
+      resetForm();
       evt.preventDefault();
       return false;
     }
@@ -41,12 +49,12 @@
     uploadFileBlock.addEventListener('change', function () {
       editingBlock.classList.remove('hidden');
       imgUploadScale.classList.add('hidden');
+      image.classList.add('effects__preview--none');
+      image.style = '';
     });
     cancelButton.addEventListener('click', function () {
       editingBlock.classList.add('hidden');
-      form.reset();
-      image.classList.remove('effects__preview--' + currentEffect);
-      image.style = '';
+      resetForm();
       editingBlock.removeEventListener('keydown', escCloseHandler);
     });
     uploadFileBlock.addEventListener('keydown', escCloseHandler);
@@ -147,6 +155,7 @@
 
   form.addEventListener('submit', function (evt) {
     window.backend.sendDataToServer(new FormData(form), onLoadDataToServer, onErrorDataToServer);
+    resetForm();
     evt.preventDefault();
   });
 
